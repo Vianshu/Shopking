@@ -1,0 +1,76 @@
+create database shopking;
+use shopking;
+
+create table customers(	
+	customer_ID int primary key auto_increment,
+    name varchar(256) NOT NULL,
+    email varchar(256),
+    login_ID varchar(256) NOT NULL,
+    password varchar(256) NOT NULL,
+    sector varchar(256) NOT NULL,
+    city varchar(256) NOT NULL,
+    state varchar(256) NOT NULL,
+    pincode int NOT NULL,
+    phone int check(10000000000<=phone<=9999999999) NOT NULL
+);
+
+create table cart(
+	cart_ID int primary key,
+    total_price int default 0,
+    customer_ID int NOT NULL,
+    order_ID int NOT NULL,
+    foreign key (customer_ID) references customers(customer_ID),
+    foreign key (order_ID) references customers(order_ID)
+    );
+    
+create table products(
+	prod_ID int primary key,
+    name varchar(256) NOT NULL,
+    description varchar(256) ,
+    price int NOT NULL,
+    stock_quantity int NOT NULL,
+    category_ID int NOT NULL,
+    foreign key (category_ID) references customers(category_ID)
+);
+
+create table supplier(
+	supp_id int primary key ,
+    name varchar(256) NOT NULL,
+    sector varchar(256) NOT NULL,
+    city varchar(256) NOT NULL,
+    state varchar(256) NOT NULL,
+    pincode int NOT NULL,
+    admin_id int NOT NULL,
+    phone int check(10000000000<=phone<=9999999999) NOT NULL
+);
+
+create table orders(
+	order_ID int primary key NOT NULL,
+    order_time time NOT NULL,
+    delivery_time time NOT NULL,
+    Status varchar(266) NOT NULL,
+    customer_id int NOT NULL,
+    admin_id int NOT NULL
+);
+
+create table admins(
+	admin_id int primary key,
+    password varchar(256)
+);
+
+
+create table category(
+	cat_id int primary key,
+    name varchar(256) Unique NOT NULL,
+    descr varchar(256) NOT NULL
+);
+
+create table del_partners(
+	dp_ID int primary key ,
+    password int NOT NULL,
+    name varchar(256) NOT NULL,
+    livelocation varchar(256) NOT NULL,
+    rating int check(1<=rating<=5) default 3,
+    admin_id int NOT NULL,
+    foreign key (admin_id) references customers(admin_id)
+);
